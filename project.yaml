@@ -1,0 +1,25 @@
+specVersion: 0.2.0
+name: Karura_SubQuery
+version: 1.0.0
+description: Karura SubQuery
+repository: https://github.com/NoRiskNoFunn/Karura_SubQuery.git
+schema:
+  file: ./schema.graphql
+network:
+  genesisHash: '0xbaf5aabe40646d11f0ee8abbdc64f4a4b7674925cba08e4a05ff9ebed6e2126b'
+  endpoint: wss://karura.api.onfinality.io/public-ws
+dataSources:
+  - kind: substrate/Runtime
+    startBlock: 1
+    mapping:
+      file: ./dist/index.js
+      handlers:
+        - handler: handleBlock
+          kind: substrate/BlockHandler
+        - handler: handleEvent
+          kind: substrate/EventHandler
+          filter:
+            module: balances
+            method: Deposit
+        - handler: handleCall
+          kind: substrate/CallHandler
